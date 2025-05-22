@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { INavLink, NAV_LINKS } from '../../../constants';
 import { CommonModule } from '@angular/common';
-import { MatToolbar, MatToolbarRow, MatToolbarModule } from "@angular/material/toolbar";
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-header-component',
-  imports: [CommonModule, MatToolbar, MatToolbarRow, MatToolbarModule],
+  imports: [CommonModule, SharedModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

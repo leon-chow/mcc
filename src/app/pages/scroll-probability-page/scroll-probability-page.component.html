@@ -1,7 +1,31 @@
 <div>
 	<img src="scrollImg">
-	<p> How many scrolls or slots? </p>
-	<p> How many of each scroll type you intend to use? (10%, 30%, 60%, 100%) </p>
-	<p> Fill in the bonus stat you will get for each scroll </p>
-	<button> Calculate </button>
+	<div>
+		<label> How many slots are on the item? </label>
+		<mat-form-field>
+			<mat-label>Number of Slots</mat-label>
+			<mat-select>
+				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div>
+		<label> How many of each scroll type you intend to use? (10%, 30%, 60%, 100%) </label>
+		<mat-form-field>
+			<mat-label> Number of Scrolls </mat-label>
+			<mat-select>
+				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div>
+		<label> Fill in the bonus stat you will get for each scroll </label>
+		<mat-form-field>
+			<mat-label> Bonuses </mat-label>
+			<mat-select>
+				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<button mat-flat-button>Calculate</button>
 </div>
