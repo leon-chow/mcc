@@ -1,31 +1,77 @@
 <div>
-	<img src="scrollImg">
-	<div>
+	<div class="content">
 		<label> How many slots are on the item? </label>
 		<mat-form-field>
 			<mat-label>Number of Slots</mat-label>
-			<mat-select>
+			<mat-select name="slots" [(ngModel)]="numOfSlots">
 				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 	</div>
-	<div>
-		<label> How many of each scroll type you intend to use? (10%, 30%, 60%, 100%) </label>
-		<mat-form-field>
-			<mat-label> Number of Scrolls </mat-label>
-			<mat-select>
-				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
-			</mat-select>
-		</mat-form-field>
+	<div class="content">
+		<label> How many of each scroll type you intend to use? (10%, 30%, 60%) </label>
+		<div class="inner-container">
+			<div>
+				<mat-form-field>
+					<mat-label> Number of 10% </mat-label>
+					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[0]" /> 
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label> Number of 30% </mat-label>
+					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[1]" /> 
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label> Number of 60% </mat-label>
+					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[2]" /> 
+				</mat-form-field>
+			</div>
+		</div>
 	</div>
-	<div>
-		<label> Fill in the bonus stat you will get for each scroll </label>
-		<mat-form-field>
-			<mat-label> Bonuses </mat-label>
-			<mat-select>
-				<mat-option *ngFor="let num of slots" [value]="num">{{num}}</mat-option>
-			</mat-select>
-		</mat-form-field>
+	<div class="content">
+		<div class="content">
+		<label> What are the bonus stats applied for each scroll tier? </label>
+		<div class="inner-container">
+			<div>
+				<mat-form-field>
+					<mat-label> Number of +3 </mat-label>
+					<input matInput type="number" [(ngModel)]="scrollNums[0]" /> 
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label> STAT </mat-label>
+					<mat-select>
+						<mat-option *ngFor="let stat of possibleStats" [value]="scrollStats[0]">{{stat}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label> Number of +5 </mat-label>
+					<input matInput type="number" [(ngModel)]="scrollNums[1]" /> 
+				</mat-form-field>				
+				<mat-form-field>
+					<mat-label> STAT </mat-label>
+					<mat-select>
+						<mat-option *ngFor="let stat of possibleStats" [value]="scrollStats[2]">{{stat}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field>
+					<mat-label> Number of +2 </mat-label>
+					<input matInput type="number" [(ngModel)]="scrollNums[2]" /> 
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label> STAT </mat-label>
+					<mat-select>
+						<mat-option *ngFor="let stat of possibleStats" [value]="scrollStats[2]">{{stat}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</div>
 	</div>
-	<button mat-flat-button>Calculate</button>
+	<button mat-flat-button (click)="displayTable()">Calculate</button>
 </div>

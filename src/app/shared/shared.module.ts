@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormField } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { MatFormField } from '@angular/material/input';
     MatToolbarModule,
     MatSelectModule,
     MatFormField,
+    FormsModule,
   ],
   exports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { MatFormField } from '@angular/material/input';
     MatInputModule,
     MatToolbarModule,
     MatSelectModule,
-    MatFormField
+    MatFormField,
+    FormsModule
   ]
 })
 export class SharedModule { }

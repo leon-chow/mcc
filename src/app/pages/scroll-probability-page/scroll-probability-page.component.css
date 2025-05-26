@@ -1,0 +1,17 @@
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.button {
+  width: 200px;
+}
