@@ -1,0 +1,2 @@
+export const POSSIBLE_STATS: string[] = ["STR", "DEX", "INT", "LUK", "W.ATK", "M.ATK", "Speed", "Jump", "Acc", "Avoid", "HP", "MP", "W.DEF", "M.DEF"]
+export const AVAILABLE_SCROLL_PERCENTAGES: number[] = [10, 60, 70, 30, 50]
