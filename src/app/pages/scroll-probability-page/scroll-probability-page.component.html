@@ -16,30 +16,6 @@
 					<mat-label> Number of 10% </mat-label>
 					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[0]" /> 
 				</mat-form-field>
-			</div>
-			<div>
-				<mat-form-field>
-					<mat-label> Number of 30% </mat-label>
-					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[1]" /> 
-				</mat-form-field>
-			</div>
-			<div>
-				<mat-form-field>
-					<mat-label> Number of 60% </mat-label>
-					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[2]" /> 
-				</mat-form-field>
-			</div>
-		</div>
-	</div>
-	<div class="content">
-		<div class="content">
-		<label> What are the bonus stats applied for each scroll tier? </label>
-		<div class="inner-container">
-			<div>
-				<mat-form-field>
-					<mat-label> Number of +3 </mat-label>
-					<input matInput type="number" [(ngModel)]="scrollNums[0]" /> 
-				</mat-form-field>
 				<mat-form-field>
 					<mat-label> STAT </mat-label>
 					<mat-select [(ngModel)]="scrollStats[0]">
@@ -49,9 +25,9 @@
 			</div>
 			<div>
 				<mat-form-field>
-					<mat-label> Number of +5 </mat-label>
-					<input matInput type="number" [(ngModel)]="scrollNums[1]" /> 
-				</mat-form-field>				
+					<mat-label> Number of 30% </mat-label>
+					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[1]" /> 
+				</mat-form-field>
 				<mat-form-field>
 					<mat-label> STAT </mat-label>
 					<mat-select [(ngModel)]="scrollStats[1]">
@@ -61,8 +37,8 @@
 			</div>
 			<div>
 				<mat-form-field>
-					<mat-label> Number of +2 </mat-label>
-					<input matInput type="number" [(ngModel)]="scrollNums[2]" /> 
+					<mat-label> Number of 60% </mat-label>
+					<input matInput type="number" [(ngModel)]="numOfScrollsPerTier[2]" /> 
 				</mat-form-field>
 				<mat-form-field>
 					<mat-label> STAT </mat-label>
@@ -73,7 +49,7 @@
 			</div>
 		</div>
 	</div>
-	<button mat-flat-button (click)="displayTable()">Calculate</button>
+	<button mat-flat-button (click)="displayTable()"> Calculate </button> <br>
 	<div *ngIf="shouldDisplayTable">
 		<table mat-table [dataSource]="dataSource">
 			<ng-container matColumnDef="statBonus">

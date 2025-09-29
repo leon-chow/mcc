@@ -4,7 +4,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { POSSIBLE_STATS } from '../../shared/constants';
-import { combinations } from '../../utils/math';
+import { binomialProb, combinations } from '../../utils/math';
 
 export interface PercentageChances {
   statBonus: string;
@@ -34,8 +34,9 @@ export class ScrollProbabilityPageComponent {
   
   numOfSlots: number = 0;
   numOfScrollsPerTier: number[] = [0, 0, 0];
-  scrollNums: number[] = [0, 0, 0];
-  scrollTiers: number[] = [0.10, 0.30, 0.60]
+  hasMultipleScrollTiers = false;
+  scrollTiers: number[] = [0.10, 0.30, 0.60];
+  scrollStatBonus: number[] = [5, 3, 2];
   
   scrollStats: string[] = ["", "", ""];
   displayedColumns: string[] = ['statBonus', 'percentage'];
@@ -48,31 +49,47 @@ export class ScrollProbabilityPageComponent {
     // fetch data from maplestory IO
   }
 
-  getProbabilityFormula(i: number, j: number, numOfScrolls: number) {
-    return `${(((combinations(numOfScrolls, j) * (Math.pow(this.scrollTiers[i], j))) * (Math.pow(1 - this.scrollTiers[i], numOfScrolls - j))) * 100).toFixed(2)}%`;
-  }
-
-  createCombinations() {
-    const sum = this.numOfScrollsPerTier.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0);
+  calculateOutcomes() {
+    const nonZeroElements = this.numOfScrollsPerTier.filter(element => element !== 0)
+    const numOfDifferentScrolls = nonZeroElements.length;
     const percentageChances: PercentageChances[] = [];
+    
+    // individual scrolls
     for (let i = 0; i < this.numOfScrollsPerTier.length; i++) {
       if (this.numOfScrollsPerTier[i] > 0) {
         for (let j = 0; j <= this.numOfScrollsPerTier[i]; j++) {
-          const percentage = this.getProbabilityFormula(i, j, sum);
-          const statBonus = `${(j) * 2} ${this.scrollStats[i]}`;
+          const percentage = `${(binomialProb(this.numOfScrollsPerTier[i], j, this.scrollTiers[i]) * 100).toPrecision(4)}%`;
+          const statBonus = `${(j) * this.scrollStatBonus[i]} ${this.scrollStats[i]}`;
           percentageChances.push({statBonus, percentage})
         }
       }
     }
-    return percentageChances;
+
+    // combined chances
+    // need to loop through each scroll tier and list all of the combinations, i.e 0x, 0y, 0z then 0x 0y, 2z, ... ax, by, cz
+    const combinations = [];
+    if (numOfDifferentScrolls > 1) {
+      for (let i = 0; i < this.numOfScrollsPerTier.length; i++) {
+        if (this.numOfScrollsPerTier[i] > 0) {
+          combinations.push(this.numOfScrollsPerTier[i]);
+          for (let j = 0; j < combinations.length; j++) {
+            for (let k = 0; k < combinations[k]; k++) {
+              const percentage = `${(binomialProb(this.numOfScrollsPerTier[i], j, this.scrollTiers[i]) * 100).toPrecision(2)}%`;
+              const statBonus = `${j === 0 || j === this.numOfScrollsPerTier[i] ? '' : 'At least'} ${(j) * this.scrollStatBonus[i]} ${this.scrollStats[i]}`;
+              percentageChances.push({statBonus, percentage})
+            }
+          }
+        }
+      }
+    }
+    
+    return percentageChances
   }
 
   displayTable() {
     this.shouldDisplayTable = true;
     // TODO: Calculate percentages, then display it as a data source for the table
-    const tableDataSource: PercentageChances[] = this.createCombinations();
+    const tableDataSource: PercentageChances[] = this.calculateOutcomes();
     this.dataSource = tableDataSource;
   }
 }

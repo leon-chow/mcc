@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="youtube-container">
+    Youtube Player here
+  </div>
+</div>
+<div class="container"> 
+  <input type="text" placeholder="Enter an OST name...">
+</div>
+<br>
+<table mat-table [dataSource]="musicData" class="mat-elevation-z8">
+  <ng-container matColumnDef="songName">
+    <th mat-header-cell *matHeaderCellDef> Song name </th>
+    <td mat-cell *matCellDef="let song"> {{song.metadata.title}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let song"> {{song.description}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let song"> {{song.source.date}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="folder">
+    <th mat-header-cell *matHeaderCellDef> Folder </th>
+    <td mat-cell *matCellDef="let song"> {{song.source.structure}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+

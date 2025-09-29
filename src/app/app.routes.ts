@@ -5,6 +5,7 @@ import { EventPageComponent } from './pages/event-page/event-page.component';
 import { GrindingPageComponent } from './pages/grinding-page/grinding-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { AccuracyPageComponent } from './pages/accuracy-page/accuracy-page.component';
+import { JukeboxPageComponent } from './jukebox-page/jukebox-page.component';
 
 export const routes: Routes = [
     {title: 'Maplestory Classic Codex', path: '', component: LandingPageComponent},
@@ -24,6 +25,9 @@ export const routes: Routes = [
     {title: 'accuracy', path: 'accuracy', component: AccuracyPageComponent},
     {path: 'acc', redirectTo: 'accuracy'},
     {path: 'accuracy-calculator', redirectTo: 'accuracy'},
+
+    {title: 'music', path: 'music', component: JukeboxPageComponent},
+    {path: 'music', redirectTo: 'music'},
 
     {title: 'not-found', path: 'not-found', component: NotFoundPageComponent},
     {path: '**', redirectTo: 'not-found'}

@@ -1,4 +1,5 @@
 export const DATA_URL = "https://maplestory.io/api/";
+export const MUSIC_URL = "https://raw.githubusercontent.com/maplestory-music/maplebgm-db/prod/bgm.min.json";
 export const NAV_LINKS: INavLink[] = [
   {
     title: "Home",

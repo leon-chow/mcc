@@ -14,3 +14,15 @@ export function combinations(n: number, r: number) {
   }
   return result;
 }
+
+export function factorial(n: number): number {
+  return n <= 1 ? 1 : n * factorial(n - 1);
+}
+
+export function binomial(n: number, k: number): number {
+  return factorial(n) / (factorial(k) * factorial(n - k));
+}
+
+export function binomialProb(n: number, k: number, p: number): number {
+  return binomial(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+}
