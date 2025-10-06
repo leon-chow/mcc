@@ -1,6 +1,6 @@
 <div class="container">
   <div class="youtube-container">
-    Youtube Player here
+    <app-youtube-player videoId="{{videoId}}" (playNext)="playNextSong()"/>
   </div>
 </div>
 <div class="container"> 
@@ -10,7 +10,7 @@
 <table mat-table [dataSource]="musicTableDataSource" class="table">
   <ng-container matColumnDef="songName">
     <th mat-header-cell *matHeaderCellDef> Song name </th>
-    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.metadata.title)"> {{song.metadata.title}} </button> </td>
+    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.youtube)"> {{song.metadata.title}} </button> </td>
   </ng-container>
 
   <ng-container matColumnDef="description">

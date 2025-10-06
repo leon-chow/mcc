@@ -5,19 +5,22 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { YoutubePlayerComponent } from '../../components/shared/youtube-player/youtube-player.component';
 
 @Component({
   selector: 'app-jukebox-page',
-  imports: [MatTableModule, MatPaginator, MatPaginatorModule, MatButtonModule, MatInputModule, MatFormFieldModule],
+  imports: [MatTableModule, MatPaginator, MatPaginatorModule, MatButtonModule, MatInputModule, MatFormFieldModule, YoutubePlayerComponent],
   templateUrl: './jukebox-page.component.html',
-  styleUrl: './jukebox-page.component.css'
+  styleUrl: './jukebox-page.component.css',
 })
 export class JukeboxPageComponent {
   constructor(private musicService: MusicServiceService) {}
   
   musicData: any = [];
+  playlist: any = [];
   searchInput: string = "";
   displayedColumns: string[] = ['songName', 'description', 'date', 'folder'];
+  videoId: string = "";
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
   musicTableDataSource = new MatTableDataSource();
   
@@ -40,7 +43,15 @@ export class JukeboxPageComponent {
     }
   }
 
-  playSong(song: string) {
-    console.log(song);
+  playNextSong() {
+    if (this.playlist.length < 1) {
+      const rand = Math.round(Math.random() * (this.musicData.length - 1));
+      console.log(rand);
+      this.videoId = this.musicData[rand].youtube;
+    }
+  } 
+
+  playSong(song: any) {
+    this.videoId = song;
   }
 }
