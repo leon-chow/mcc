@@ -9,6 +9,7 @@ import { MatFormField } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginator,
     MatPaginatorModule,
     MatFormFieldModule,
+    YouTubePlayer
   ],
   exports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatPaginator,
     MatPaginatorModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    YouTubePlayer
   ]
 })
 export class SharedModule { }
