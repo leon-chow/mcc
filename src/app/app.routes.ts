@@ -5,7 +5,7 @@ import { EventPageComponent } from './pages/event-page/event-page.component';
 import { GrindingPageComponent } from './pages/grinding-page/grinding-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { AccuracyPageComponent } from './pages/accuracy-page/accuracy-page.component';
-import { JukeboxPageComponent } from './jukebox-page/jukebox-page.component';
+import { JukeboxPageComponent } from './pages/jukebox-page/jukebox-page.component';
 
 export const routes: Routes = [
     {title: 'Maplestory Classic Codex', path: '', component: LandingPageComponent},

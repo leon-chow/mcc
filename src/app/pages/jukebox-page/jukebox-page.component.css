@@ -2,6 +2,18 @@
   padding: 20px 0;
 }
 
+.table {
+  width: 100%;
+}
+
+.song-button {
+  width: 500px;
+}
+
+.song-name-cell {
+  width: 500px;
+}
+
 .youtube-container {
   display: flex;
   height: 500px;

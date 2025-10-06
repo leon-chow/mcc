@@ -7,6 +7,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormField } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [],
@@ -18,7 +20,10 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatFormField,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatFormFieldModule,
   ],
   exports: [
     CommonModule,
@@ -29,7 +34,9 @@ import { FormsModule } from '@angular/forms';
     MatFormField,
     FormsModule, 
     MatTableModule,
-    
+    MatPaginator,
+    MatPaginatorModule,
+    MatFormFieldModule
   ]
 })
 export class SharedModule { }

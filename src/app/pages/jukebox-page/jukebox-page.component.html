@@ -4,28 +4,25 @@
   </div>
 </div>
 <div class="container"> 
-  <input type="text" placeholder="Enter an OST name...">
+  <input matInput type="text" (input)="onSearchChange($event)" placeholder="Enter an OST name...">
 </div>
 <br>
-<table mat-table [dataSource]="musicData" class="mat-elevation-z8">
+<table mat-table [dataSource]="musicTableDataSource" class="table">
   <ng-container matColumnDef="songName">
     <th mat-header-cell *matHeaderCellDef> Song name </th>
-    <td mat-cell *matCellDef="let song"> {{song.metadata.title}} </td>
+    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.metadata.title)"> {{song.metadata.title}} </button> </td>
   </ng-container>
 
-  <!-- Name Column -->
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef> Description </th>
     <td mat-cell *matCellDef="let song"> {{song.description}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef> Date </th>
     <td mat-cell *matCellDef="let song"> {{song.source.date}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
   <ng-container matColumnDef="folder">
     <th mat-header-cell *matHeaderCellDef> Folder </th>
     <td mat-cell *matCellDef="let song"> {{song.source.structure}} </td>
@@ -34,5 +31,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons> </mat-paginator>
 
 
