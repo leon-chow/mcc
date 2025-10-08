@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { YouTubePlayer } from '@angular/youtube-player';
 
@@ -9,6 +9,7 @@ import { YouTubePlayer } from '@angular/youtube-player';
   styleUrl: './youtube-player.component.css'
 })
 export class YoutubePlayerComponent {
+  videoPlayerWidth: number = 0;
   @Input() videoId: string = "";
   @Output() playNext: EventEmitter<any> = new EventEmitter();
   playerConfig = {
@@ -16,12 +17,18 @@ export class YoutubePlayerComponent {
     mute: 0,
     autoplay: 1
   };
+  
   ngOnInit() {
+    this.videoPlayerWidth = window.innerWidth - 100;
     this.videoId = "49AZqVhXVeU"
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.videoPlayerWidth = window.innerWidth - 100;
   }
 
   playerStateChange(event: any) {
-    console.log(event);
     if (event.data === 0) {
       this.playNext.emit();
     }

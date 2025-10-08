@@ -19,7 +19,7 @@ export class JukeboxPageComponent {
   musicData: any = [];
   playlist: any = [];
   searchInput: string = "";
-  displayedColumns: string[] = ['songName', 'description', 'date', 'folder'];
+  displayedColumns: string[] = ['mark','songName', 'description', 'date', 'folder'];
   videoId: string = "";
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
   musicTableDataSource = new MatTableDataSource();
@@ -34,7 +34,7 @@ export class JukeboxPageComponent {
 
    onSearchChange(searchEvent: Event) {
     this.musicTableDataSource.filterPredicate = (data: any, filter: string) => {
-      return data.metadata.title.toLowerCase().includes(filter);
+      return data.metadata.title.toLowerCase().includes(filter) || data.description.toLowerCase().includes(filter); 
     };
     const value = ((searchEvent.target) as HTMLInputElement).value
     this.musicTableDataSource.filter = value.trim().toLowerCase();

@@ -1,8 +1,8 @@
-<div class="video-player-container">
+<div class="root-container">
   <div class="container">
-    <youtube-player videoId={{videoId}} placeholderImageQuality="standard" autoplay="true" [width]="1000" [height]="500" [playerVars]="playerConfig" (stateChange)="playerStateChange($event)"/>
+    <youtube-player videoId={{videoId}} placeholderImageQuality="standard" autoplay="true" [width]="videoPlayerWidth" [height]="500" [playerVars]="playerConfig" (stateChange)="playerStateChange($event)"/>
   </div>
-  <div class="container">
+  <div class="button-container">
     <button mat-flat-button class="button" (click)="playNextSong()"> Prev </button>
     <button mat-flat-button class="button" (click)="playNextSong()"> Next </button>
   </div>

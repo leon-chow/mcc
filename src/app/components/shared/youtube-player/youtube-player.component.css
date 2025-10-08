@@ -1,13 +1,17 @@
-.video-player-container {
+.root-container {
   width: 100%;
   height: 100%;
 }
 
-.container {
+.container, .button-container {
+  width: 100%;
   padding: 10px;
   display: flex;
-  justify-content: center;
   align-items: center;
+}
+
+.button-container {
+  justify-content: center;
 }
 
 .button {

@@ -1,13 +1,17 @@
 <div class="container">
-  <div class="youtube-container">
-    <app-youtube-player videoId="{{videoId}}" (playNext)="playNextSong()"/>
-  </div>
+  <app-youtube-player videoId="{{videoId}}" (playNext)="playNextSong()"/>
 </div>
 <div class="container"> 
-  <input matInput type="text" (input)="onSearchChange($event)" placeholder="Enter an OST name...">
+  <mat-form-field class="search-input">
+    <input matInput type="text" (input)="onSearchChange($event)" placeholder="Enter an OST name or Description...">
+  </mat-form-field>
 </div>
 <br>
 <table mat-table [dataSource]="musicTableDataSource" class="table">
+  <ng-container matColumnDef="mark">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td class="song-logo-cell" mat-cell *matCellDef="let song"> <img src="https://maplestory-music.github.io/mark/{{song.mark}}.png">  </td>
+  </ng-container>
   <ng-container matColumnDef="songName">
     <th mat-header-cell *matHeaderCellDef> Song name </th>
     <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.youtube)"> {{song.metadata.title}} </button> </td>

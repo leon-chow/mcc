@@ -1,9 +1,19 @@
 .container {
   padding: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
 }
 
 .table {
   width: 100%;
+}
+
+.mat-mdc-header-cell, .mat-mdc-cell {
+  text-align: center;
 }
 
 .song-button {
@@ -12,6 +22,11 @@
 
 .song-name-cell {
   width: 500px;
+  text-align: center;
+}
+
+.song-logo-cell {
+  text-align: center;
 }
 
 .youtube-container {
