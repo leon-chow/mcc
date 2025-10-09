@@ -6,10 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { YoutubePlayerComponent } from '../../components/shared/youtube-player/youtube-player.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-jukebox-page',
-  imports: [MatTableModule, MatPaginator, MatPaginatorModule, MatButtonModule, MatInputModule, MatFormFieldModule, YoutubePlayerComponent],
+  imports: [MatTableModule, MatPaginator, MatPaginatorModule, MatButtonModule, MatInputModule, MatFormFieldModule, YoutubePlayerComponent, MatIconModule, MatMenuModule],
   templateUrl: './jukebox-page.component.html',
   styleUrl: './jukebox-page.component.css',
 })

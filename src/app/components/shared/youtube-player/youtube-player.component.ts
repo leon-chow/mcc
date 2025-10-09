@@ -4,7 +4,7 @@ import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-youtube-player',
-  imports: [YoutubePlayerComponent, YouTubePlayer, MatButtonModule],
+  imports: [YouTubePlayer, MatButtonModule],
   templateUrl: './youtube-player.component.html',
   styleUrl: './youtube-player.component.css'
 })
@@ -29,6 +29,7 @@ export class YoutubePlayerComponent {
   }
 
   playerStateChange(event: any) {
+    console.log(event);
     if (event.data === 0) {
       this.playNext.emit();
     }
