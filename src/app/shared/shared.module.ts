@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -29,7 +31,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatFormFieldModule,
     MatIconModule,
     YouTubePlayer,
-    MatMenuModule
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [
     CommonModule,
@@ -45,7 +49,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatFormFieldModule,
     MatIconModule,
     MatMenuModule,
-    YouTubePlayer
-  ]
+    YouTubePlayer,
+    MatDatepickerModule,
+  ],
 })
 export class SharedModule { }

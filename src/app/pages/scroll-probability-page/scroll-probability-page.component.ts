@@ -17,7 +17,7 @@ export interface PercentageChances {
 
 @Component({
   selector: 'app-scroll-probability-page',
-  imports: [SharedModule, MatInputModule],
+  imports: [SharedModule],
   templateUrl: './scroll-probability-page.component.html',
   styleUrl: './scroll-probability-page.component.css'
 })

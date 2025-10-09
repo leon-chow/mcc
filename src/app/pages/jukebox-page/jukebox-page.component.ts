@@ -1,17 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { MusicServiceService } from '../../services/music-service.service';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { YoutubePlayerComponent } from '../../components/shared/youtube-player/youtube-player.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { SharedModule } from '../../shared/shared.module';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-jukebox-page',
-  imports: [MatTableModule, MatPaginator, MatPaginatorModule, MatButtonModule, MatInputModule, MatFormFieldModule, YoutubePlayerComponent, MatIconModule, MatMenuModule],
+  imports: [SharedModule, YoutubePlayerComponent],
   templateUrl: './jukebox-page.component.html',
   styleUrl: './jukebox-page.component.css',
 })
@@ -19,22 +16,29 @@ export class JukeboxPageComponent {
   constructor(private musicService: MusicServiceService) {}
   
   musicData: any = [];
+  filteredData: any = [];
   playlist: any = [];
   searchInput: string = "";
   displayedColumns: string[] = ['mark','songName', 'description', 'date', 'folder'];
   videoId: string = "";
+  currentPlaylistIndex: number = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
   musicTableDataSource = new MatTableDataSource();
   
   ngOnInit() {
     this.musicService.getMusicData().subscribe(data => {
       this.musicData = data;
-      this.musicTableDataSource = new MatTableDataSource(this.musicData);
-      this.musicTableDataSource.paginator = this.paginator;
+      this.filteredData = data;
+      this.setTableDataSource(this.musicData);
     })
   }
 
-   onSearchChange(searchEvent: Event) {
+  setTableDataSource(musicData: any[]) {
+    this.musicTableDataSource = new MatTableDataSource(musicData);
+    this.musicTableDataSource.paginator = this.paginator;
+  }
+  
+  onSearchChange(searchEvent: Event) {
     this.musicTableDataSource.filterPredicate = (data: any, filter: string) => {
       return data.metadata.title.toLowerCase().includes(filter) || data.description.toLowerCase().includes(filter); 
     };
@@ -45,12 +49,32 @@ export class JukeboxPageComponent {
     }
   }
 
+  onDateFilter(searchFilter: MatDatepickerInputEvent<any, any>, dateRangeSelection: string) {
+    this.filteredData = this.musicData.filter((song: any) => {
+      const searchDate = new Date(searchFilter.value);
+      const compareDate = new Date(song.source.date);
+      if (dateRangeSelection === 'before') {
+        return compareDate.getTime() < searchDate.getTime();
+      } else {
+        return compareDate.getTime() > searchDate.getTime();
+      }
+    })
+    this.setTableDataSource(this.filteredData);
+  }
+
+  onDateRangeFilter(dateRangeStart: any, dateRangeEnd: any) {
+    this.filteredData = this.musicData.filter((song: any) => {
+      const rangeStartDate = new Date(dateRangeStart.value);
+      const rangeEndDate = new Date(dateRangeEnd.value);
+      const compareDate = new Date(song.source.date);
+      return compareDate.getTime() > rangeStartDate.getTime() && compareDate.getTime() < rangeEndDate.getTime();
+    })
+    this.setTableDataSource(this.filteredData);
+  }
+
   playNextSong() {
-    if (this.playlist.length < 1) {
-      const rand = Math.round(Math.random() * (this.musicData.length - 1));
-      console.log(rand);
-      this.videoId = this.musicData[rand].youtube;
-    }
+    const rand = Math.round(Math.random() * (this.filteredData.length - 1));
+    this.videoId = this.filteredData[rand].youtube;
   } 
 
   playSong(song: any) {

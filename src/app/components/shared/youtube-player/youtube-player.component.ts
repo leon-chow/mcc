@@ -1,10 +1,9 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { YouTubePlayer } from '@angular/youtube-player';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-youtube-player',
-  imports: [YouTubePlayer, MatButtonModule],
+  imports: [SharedModule],
   templateUrl: './youtube-player.component.html',
   styleUrl: './youtube-player.component.css'
 })
@@ -29,7 +28,6 @@ export class YoutubePlayerComponent {
   }
 
   playerStateChange(event: any) {
-    console.log(event);
     if (event.data === 0) {
       this.playNext.emit();
     }
