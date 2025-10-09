@@ -4,6 +4,25 @@
   justify-content: center;
 }
 
+.button-container {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  margin: 0 10px;
+}
+
+.play-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 .search-input {
   width: 100%;
 }

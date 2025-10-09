@@ -19,7 +19,6 @@ export class YoutubePlayerComponent {
   
   ngOnInit() {
     this.videoPlayerWidth = window.innerWidth - 100;
-    this.videoId = "49AZqVhXVeU"
   }
   
   @HostListener('window:resize', ['$event'])
@@ -31,9 +30,5 @@ export class YoutubePlayerComponent {
     if (event.data === 0) {
       this.playNext.emit();
     }
-  }
-  
-  playNextSong() {
-    this.playNext.emit();
   }
 }

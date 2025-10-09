@@ -1,3 +1,9 @@
+export function shuffleArray(arrayToShuffle: any) {
+  return arrayToShuffle.map((a: any) => ({ sort: Math.random(), value: a }))
+    .sort((a: { sort: number; }, b: { sort: number; }) => a.sort - b.sort)
+    .map((a: { value: any; }) => a.value); 
+};
+
 export function combinations(n: number, r: number) {
   if (r < 0 || r > n) {
     return 0;

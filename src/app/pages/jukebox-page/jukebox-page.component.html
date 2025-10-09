@@ -1,10 +1,23 @@
 <div class="container">
   <app-youtube-player videoId="{{videoId}}" (playNext)="playNextSong()"/>
 </div>
+<div class="container">
+  Now playing {{currentPlayedSong || "Nothing..."}}
+</div>
+<div class="button-container">
+  <button *ngIf="playlist.length > 0 && currentPlaylistIndex > 0" mat-flat-button class="button" (click)="playPreviousSong()"> Prev </button>
+  <button mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
+  <div *ngIf="playlist.length > 0">
+    {{currentPlaylistIndex + 1 }} of {{filteredData.length + 1}}
+  </div>
+</div>
 <div class="container"> 
   <mat-form-field class="search-input">
     <input matInput type="text" (input)="onSearchChange($event)" placeholder="Enter an OST name or Description...">
   </mat-form-field>
+  <button mat-flat-button (click)="shufflePlaylist()" class="play-button">
+    <mat-icon> shuffle </mat-icon> <mat-icon> play_circle </mat-icon>
+  </button>
 </div>
 <br>
 <table mat-table [dataSource]="musicTableDataSource" class="table">
@@ -14,7 +27,7 @@
   </ng-container>
   <ng-container matColumnDef="songName">
     <th mat-header-cell *matHeaderCellDef> Song name </th>
-    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.youtube)"> {{song.metadata.title}} </button> </td>
+    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.metadata.title, song.youtube)"> {{song.metadata.title}} </button> </td>
   </ng-container>
 
   <ng-container matColumnDef="description">

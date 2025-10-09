@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { YoutubePlayerComponent } from '../../components/shared/youtube-player/youtube-player.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { shuffleArray } from '../../utils/math';
 
 @Component({
   selector: 'app-jukebox-page',
@@ -22,6 +23,7 @@ export class JukeboxPageComponent {
   displayedColumns: string[] = ['mark','songName', 'description', 'date', 'folder'];
   videoId: string = "";
   currentPlaylistIndex: number = 0;
+  currentPlayedSong: string = "";
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator;
   musicTableDataSource = new MatTableDataSource();
   
@@ -73,11 +75,33 @@ export class JukeboxPageComponent {
   }
 
   playNextSong() {
-    const rand = Math.round(Math.random() * (this.filteredData.length - 1));
-    this.videoId = this.filteredData[rand].youtube;
+    if (this.playlist.length < 1) {
+      const rand = Math.round(Math.random() * (this.filteredData.length - 1));
+      this.videoId = this.filteredData[rand].youtube;
+      this.currentPlayedSong = this.filteredData[rand].metadata.title;
+    } else {
+      this.currentPlaylistIndex++; 
+      this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+    }
   } 
 
-  playSong(song: any) {
-    this.videoId = song;
+  playPreviousSong() {
+    this.currentPlaylistIndex--;
+    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+  }
+
+  shufflePlaylist() {
+    const shuffledMusic = shuffleArray(this.filteredData);
+    shuffledMusic.map((song: any) => {
+      this.playlist.push(
+        {songName: song.metadata.title, youtube: song.youtube}
+      )
+    })
+    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+  }
+
+  playSong(song: string, link: string) {
+    this.videoId = link;
+    this.currentPlayedSong = song;
   }
 }

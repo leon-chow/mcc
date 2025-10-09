@@ -1,9 +1,8 @@
 <div class="root-container">
-  <div class="container">
+  <div class="container" *ngIf="videoId; else musicPlaceholder">
     <youtube-player videoId={{videoId}} placeholderImageQuality="standard" autoplay="true" [width]="videoPlayerWidth" [height]="500" [playerVars]="playerConfig" (stateChange)="playerStateChange($event)"/>
   </div>
-  <div class="button-container">
-    <button mat-flat-button class="button" (click)="playNextSong()"> Prev </button>
-    <button mat-flat-button class="button" (click)="playNextSong()"> Next </button>
-  </div>
+  <ng-template #musicPlaceholder> 
+    <img src="https://maplestory-music.github.io/assets/pink-bean.png">
+  </ng-template>
 </div>
