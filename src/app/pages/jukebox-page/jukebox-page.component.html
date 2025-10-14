@@ -1,14 +1,14 @@
 <div class="container">
   <app-youtube-player videoId="{{videoId}}" (playNext)="playNextSong()"/>
 </div>
-<div class="container">
-  Now playing {{currentPlayedSong || "Nothing..."}}
+<div class="container" *ngIf="currentPlayedSong">
+  Now playing "{{currentPlayedSong}}".
 </div>
 <div class="button-container">
   <button *ngIf="playlist.length > 0 && currentPlaylistIndex > 0" mat-flat-button class="button" (click)="playPreviousSong()"> Prev </button>
   <button mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
   <div *ngIf="playlist.length > 0">
-    {{currentPlaylistIndex + 1 }} of {{filteredData.length + 1}}
+    {{currentPlaylistIndex + 1 }} of {{filteredData.length }}
   </div>
 </div>
 <div class="container"> 

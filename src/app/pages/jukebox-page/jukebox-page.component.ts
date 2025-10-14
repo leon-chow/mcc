@@ -91,6 +91,7 @@ export class JukeboxPageComponent {
   }
 
   shufflePlaylist() {
+    this.resetPlaylist();
     const shuffledMusic = shuffleArray(this.filteredData);
     shuffledMusic.map((song: any) => {
       this.playlist.push(
@@ -103,5 +104,10 @@ export class JukeboxPageComponent {
   playSong(song: string, link: string) {
     this.videoId = link;
     this.currentPlayedSong = song;
+  }
+
+  resetPlaylist() {
+    this.playlist = [];
+    this.currentPlaylistIndex = 0;
   }
 }
