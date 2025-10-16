@@ -48,6 +48,10 @@
   text-align: center;
 }
 
+.sortable-table-header {
+  cursor: pointer;
+}
+
 .youtube-container {
   display: flex;
   height: 500px;

@@ -26,7 +26,9 @@
     <td class="song-logo-cell" mat-cell *matCellDef="let song"> <img src="https://maplestory-music.github.io/mark/{{song.mark}}.png">  </td>
   </ng-container>
   <ng-container matColumnDef="songName">
-    <th mat-header-cell *matHeaderCellDef> Song name </th>
+    <th mat-header-cell *matHeaderCellDef class="sortable-table-header" (click)="sortName()"> Song name 
+      <mat-icon *ngIf="sortNameDesc !== undefined">{{ sortNameDesc ? "arrow_drop_down" : "arrow_drop_up" }}</mat-icon>
+    </th>
     <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.metadata.title, song.youtube)"> {{song.metadata.title}} </button> </td>
   </ng-container>
 
@@ -36,37 +38,39 @@
   </ng-container>
 
   <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef> Date 
+    <th mat-header-cell *matHeaderCellDef class="sortable-table-header" (click)="sortDate()"> Date
+      <mat-icon *ngIf="sortDateDesc !== undefined">{{ sortDateDesc ? "arrow_drop_down" : "arrow_drop_up" }}</mat-icon>
       <button matMiniFab [matMenuTriggerFor]="menu" aria-label="Example icon button with a menu icon">
         <mat-icon>menu</mat-icon>
-      </button> </th>
-      <mat-menu #menu="matMenu">
-        <mat-form-field (click)="$event.stopPropagation()">
-          <mat-label>Date Range</mat-label>
-          <select #dateRangeSelection matNativeControl>
-            <option value="before">Before</option>
-            <option value="after">After</option>
-            <option value="between">In Between</option>
-          </select>
-        </mat-form-field>
-        <mat-form-field *ngIf="dateRangeSelection.value !== 'between'" (click)="$event.stopPropagation()">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="beforeAfterPicker" (dateChange)="onDateFilter($event, dateRangeSelection.value)">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="beforeAfterPicker"></mat-datepicker-toggle>
-          <mat-datepicker #beforeAfterPicker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field *ngIf="dateRangeSelection.value === 'between'" (click)="$event.stopPropagation()">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="dateRangePicker">
-            <input matStartDate #dateRangeStart placeholder="Start date">
-            <input matEndDate #dateRangeEnd placeholder="End date" (dateChange)="onDateRangeFilter(dateRangeStart, dateRangeEnd)">
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
-          <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
-        </mat-form-field>
-      </mat-menu>
+      </button> 
+    </th>
+    <mat-menu #menu="matMenu">
+      <mat-form-field (click)="$event.stopPropagation()">
+        <mat-label>Date Range</mat-label>
+        <select #dateRangeSelection matNativeControl>
+          <option value="before">Before</option>
+          <option value="after">After</option>
+          <option value="between">In Between</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field *ngIf="dateRangeSelection.value !== 'between'" (click)="$event.stopPropagation()">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="beforeAfterPicker" (dateChange)="onDateFilter($event, dateRangeSelection.value)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="beforeAfterPicker"></mat-datepicker-toggle>
+        <mat-datepicker #beforeAfterPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field *ngIf="dateRangeSelection.value === 'between'" (click)="$event.stopPropagation()">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="dateRangePicker">
+          <input matStartDate #dateRangeStart placeholder="Start date">
+          <input matEndDate #dateRangeEnd placeholder="End date" (dateChange)="onDateRangeFilter(dateRangeStart, dateRangeEnd)">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
+      </mat-form-field>
+    </mat-menu>
     <td mat-cell *matCellDef="let song"> {{song.source.date}} </td>
   </ng-container>
 
