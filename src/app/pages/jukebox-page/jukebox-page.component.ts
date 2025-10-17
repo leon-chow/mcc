@@ -76,20 +76,28 @@ export class JukeboxPageComponent {
     this.setTableDataSource(this.filteredData);
   }
 
-  playNextSong() {
+  playNextSong(playlistIndex?: number) {
     if (this.playlist.length < 1) {
       const rand = Math.round(Math.random() * (this.filteredData.length - 1));
       this.videoId = this.filteredData[rand].youtube;
       this.currentPlayedSong = this.filteredData[rand].metadata.title;
     } else {
       this.currentPlaylistIndex++; 
-      this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+      if (playlistIndex) {
+        if (playlistIndex >= this.playlist.length) {
+          playlistIndex = this.playlist.length;
+        } else if (playlistIndex <= 1) {
+          playlistIndex = 1;
+        }
+        this.currentPlaylistIndex = playlistIndex!;
+      }
+      this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
     }
   } 
 
   playPreviousSong() {
     this.currentPlaylistIndex--;
-    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+    this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
   }
 
   shufflePlaylist() {
@@ -155,7 +163,6 @@ export class JukeboxPageComponent {
     });
     this.setTableDataSource(this.filteredData);
   }
-
 
   resetPlaylist() {
     this.playlist = [];

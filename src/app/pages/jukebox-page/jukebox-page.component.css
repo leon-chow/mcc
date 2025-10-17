@@ -27,6 +27,11 @@
   width: 100%;
 }
 
+.playlist-input {
+  width: 3rem;
+  height: 1.5rem;
+}
+
 .table {
   width: 100%;
 }
