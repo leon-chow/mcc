@@ -6,10 +6,29 @@
 </div>
 <div class="button-container">
   <button *ngIf="playlist.length > 0 && currentPlaylistIndex > 1" mat-flat-button class="button" (click)="playPreviousSong()"> Prev </button>
-  <button *ngIf="playlist.length > 0 && currentPlaylistIndex < playlist.length || playlist.length < 1" mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
   <div *ngIf="playlist.length > 0">
-    <input class="playlist-input" #playlistIndex type="number" [min]="1" step="1" [max]="playlist.length"  [(ngModel)]="currentPlaylistIndex" (input)="playNextSong(+playlistIndex.value)"> of {{playlist.length }}
+    <input class="playlist-input" #playlistIndex type="number" min="1" max="playlist.length" step="1" maxlength="4" [(ngModel)]="currentPlaylistIndex" (input)="playlistValueChange(+playlistIndex.value)" (blur)="playNextSong(+playlistIndex.value)">  of {{playlist.length }}
   </div>
+  <button *ngIf="playlist.length > 0 && currentPlaylistIndex < playlist.length || playlist.length < 1" mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
+  <button mat-flat-button [matMenuTriggerFor]="addPlaylistMenu" aria-label="Example icon button with a menu icon">
+    Save Playlist
+  </button>
+  <mat-menu #addPlaylistMenu="matMenu">
+    <button class="button" mat-flat-button (click)="savePlaylist()">
+      + New Playlist
+    </button>
+    <div *ngFor="let playlist of allPlaylists" (click)="savePlaylist(playlist.key)" class="playlist-menu-item">
+      {{playlist.key}}
+    </div>
+  </mat-menu>
+  <button mat-flat-button [matMenuTriggerFor]="playlistMenu" aria-label="Example icon button with a menu icon">
+    Load Playlist
+  </button>
+  <mat-menu #playlistMenu="matMenu">
+   <div *ngFor="let playlist of allPlaylists" (click)="playPlaylist(playlist.key)" class="playlist-menu-item">
+      {{playlist.key}}
+    </div>
+  </mat-menu>
 </div>
 <div class="container"> 
   <mat-form-field class="search-input">
@@ -40,7 +59,7 @@
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef class="sortable-table-header" (click)="sortDate()"> Date
       <mat-icon *ngIf="sortDateDesc !== undefined">{{ sortDateDesc ? "arrow_drop_down" : "arrow_drop_up" }}</mat-icon>
-      <button matMiniFab [matMenuTriggerFor]="menu" aria-label="Example icon button with a menu icon">
+      <button matMiniFab [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" aria-label="Example icon button with a menu icon">
         <mat-icon>menu</mat-icon>
       </button> 
     </th>

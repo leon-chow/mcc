@@ -6,6 +6,7 @@ import { YoutubePlayerComponent } from '../../components/shared/youtube-player/y
 import { SharedModule } from '../../shared/shared.module';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { shuffleArray } from '../../utils/math';
+import { LocalStorageService } from '../../services/local-storage-service.service';
 
 @Component({
   selector: 'app-jukebox-page',
@@ -14,11 +15,12 @@ import { shuffleArray } from '../../utils/math';
   styleUrl: './jukebox-page.component.css',
 })
 export class JukeboxPageComponent {
-  constructor(private musicService: MusicServiceService) {}
+  constructor(private musicService: MusicServiceService, private localStorage: LocalStorageService) {}
   
   musicData: any = [];
   filteredData: any = [];
   playlist: any = [];
+  allPlaylists: any = [];
   searchInput: string = "";
   displayedColumns: string[] = ['mark','songName', 'description', 'date', 'folder'];
   videoId: string = "";
@@ -35,6 +37,8 @@ export class JukeboxPageComponent {
       this.filteredData = data;
       this.setTableDataSource(this.musicData);
     })
+    this.allPlaylists = this.localStorage.getAllPlaylists();
+    console.log(this.allPlaylists)
   }
 
   setTableDataSource(musicData: any[]) {
@@ -76,6 +80,15 @@ export class JukeboxPageComponent {
     this.setTableDataSource(this.filteredData);
   }
 
+  playlistValueChange(playlistIndex: any) {
+    if (playlistIndex >= this.playlist.length) {
+      playlistIndex = this.playlist.length;
+    } else if (playlistIndex <= 1) {
+      playlistIndex = 1;
+    }
+    this.currentPlaylistIndex = playlistIndex;
+  }
+
   playNextSong(playlistIndex?: number) {
     if (this.playlist.length < 1) {
       const rand = Math.round(Math.random() * (this.filteredData.length - 1));
@@ -83,13 +96,10 @@ export class JukeboxPageComponent {
       this.currentPlayedSong = this.filteredData[rand].metadata.title;
     } else {
       this.currentPlaylistIndex++; 
+      // TODO: Fix input
       if (playlistIndex) {
-        if (playlistIndex >= this.playlist.length) {
-          playlistIndex = this.playlist.length;
-        } else if (playlistIndex <= 1) {
-          playlistIndex = 1;
-        }
-        this.currentPlaylistIndex = playlistIndex!;
+        this.currentPlaylistIndex = playlistIndex;
+        console.log(this.currentPlaylistIndex);
       }
       this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
     }
@@ -100,9 +110,29 @@ export class JukeboxPageComponent {
     this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
   }
 
-  shufflePlaylist() {
+  savePlaylist(key?: string) {
+    if (this.playlist && key) {
+      this.localStorage.setItem(key, this.playlist)
+    } else {
+      const newKey = "playlist-" + Math.round(Math.random() * 1000000000);
+      this.localStorage.setItem(newKey, this.playlist);
+    }
+    this.allPlaylists = this.localStorage.getAllPlaylists();
+  }
+
+  playPlaylist(key: string) {
+    this.playlist = this.localStorage.getItem("playlist-811813641");
+    this.shufflePlaylist();
+  }
+
+  shufflePlaylist(playlist?: any) {
+    let shuffledMusic;
     this.resetPlaylist();
-    const shuffledMusic = shuffleArray(this.filteredData);
+    if (playlist) {
+      shuffledMusic = shuffleArray(this.playlist);
+    } else {
+      shuffledMusic = shuffleArray(this.filteredData);
+    }
     shuffledMusic.map((song: any) => {
       this.playlist.push(
         {songName: song.metadata.title, youtube: song.youtube, date: song.source.date}
