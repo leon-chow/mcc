@@ -7,6 +7,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { shuffleArray } from '../../utils/math';
 import { LocalStorageService } from '../../services/local-storage-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SimpleModalComponent } from '../../components/shared/simple-modal/simple-modal.component';
 
 @Component({
   selector: 'app-jukebox-page',
@@ -15,7 +17,7 @@ import { LocalStorageService } from '../../services/local-storage-service.servic
   styleUrl: './jukebox-page.component.css',
 })
 export class JukeboxPageComponent {
-  constructor(private musicService: MusicServiceService, private localStorage: LocalStorageService) {}
+  constructor(private musicService: MusicServiceService, private localStorage: LocalStorageService, private dialog: MatDialog) {}
   
   musicData: any = [];
   filteredData: any = [];
@@ -111,18 +113,32 @@ export class JukeboxPageComponent {
   }
 
   savePlaylist(key?: string) {
-    if (this.playlist && key) {
-      this.localStorage.setItem(key, this.playlist)
-    } else {
-      const newKey = "playlist-" + Math.round(Math.random() * 1000000000);
-      this.localStorage.setItem(newKey, this.playlist);
+    if (this.playlist.length > 0 && key) {
+      const item = this.localStorage.getItem(key);
+      this.localStorage.setItem(key, {name: item.name, playlist: this.playlist});
+      this.allPlaylists = this.localStorage.getAllPlaylists();
+    } else if (this.playlist.length > 0 && !key) {
+      const dialogRef = this.dialog.open(SimpleModalComponent, {});
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          const newKey = "playlist-" + result + "-" + Math.round(Math.random() * 1000000000);
+          this.localStorage.setItem(newKey, {name: result, playlist: this.playlist});
+        } 
+        this.allPlaylists = this.localStorage.getAllPlaylists();
+      });
     }
+  }
+
+  deletePlaylist(key: string) {
+    this.localStorage.removeItem(key);
     this.allPlaylists = this.localStorage.getAllPlaylists();
   }
 
   playPlaylist(key: string) {
-    this.playlist = this.localStorage.getItem("playlist-811813641");
-    this.shufflePlaylist();
+    this.resetPlaylist();
+    this.playlist = this.localStorage.getItem(key).playlist;
+    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
   }
 
   shufflePlaylist(playlist?: any) {
@@ -138,6 +154,7 @@ export class JukeboxPageComponent {
         {songName: song.metadata.title, youtube: song.youtube, date: song.source.date}
       )
     })
+    console.log(this.playlist);
     this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
   }
 

@@ -10,7 +10,7 @@
     <input class="playlist-input" #playlistIndex type="number" min="1" max="playlist.length" step="1" maxlength="4" [(ngModel)]="currentPlaylistIndex" (input)="playlistValueChange(+playlistIndex.value)" (blur)="playNextSong(+playlistIndex.value)">  of {{playlist.length }}
   </div>
   <button *ngIf="playlist.length > 0 && currentPlaylistIndex < playlist.length || playlist.length < 1" mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
-  <button mat-flat-button [matMenuTriggerFor]="addPlaylistMenu" aria-label="Example icon button with a menu icon">
+  <button *ngIf="playlist.length > 0" mat-flat-button [matMenuTriggerFor]="addPlaylistMenu" aria-label="Example icon button with a menu icon">
     Save Playlist
   </button>
   <mat-menu #addPlaylistMenu="matMenu">
@@ -18,7 +18,7 @@
       + New Playlist
     </button>
     <div *ngFor="let playlist of allPlaylists" (click)="savePlaylist(playlist.key)" class="playlist-menu-item">
-      {{playlist.key}}
+      <button class="button" (click)="$event.stopPropagation(); deletePlaylist(playlist.key)"> X </button> {{playlist.name}} 
     </div>
   </mat-menu>
   <button mat-flat-button [matMenuTriggerFor]="playlistMenu" aria-label="Example icon button with a menu icon">
@@ -26,7 +26,7 @@
   </button>
   <mat-menu #playlistMenu="matMenu">
    <div *ngFor="let playlist of allPlaylists" (click)="playPlaylist(playlist.key)" class="playlist-menu-item">
-      {{playlist.key}}
+      {{playlist.name}}
     </div>
   </mat-menu>
 </div>

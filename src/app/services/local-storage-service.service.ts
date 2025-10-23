@@ -28,7 +28,7 @@ export class LocalStorageService {
       if (value && value.startsWith('playlist')) {
         const item = localStorage.getItem(value);
         const playlist = JSON.parse(item!);
-        playlists.push({key: value, playlist: playlist});
+        playlists.push({key: value, name: playlist.name, playlist: playlist.playlist });
       }
     }
     return playlists;
