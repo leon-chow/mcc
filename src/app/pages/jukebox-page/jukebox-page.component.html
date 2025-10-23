@@ -10,7 +10,7 @@
     <input class="playlist-input" #playlistIndex type="number" min="1" max="playlist.length" step="1" maxlength="4" [(ngModel)]="currentPlaylistIndex" (input)="playlistValueChange(+playlistIndex.value)" (blur)="playNextSong(+playlistIndex.value)">  of {{playlist.length }}
   </div>
   <button *ngIf="playlist.length > 0 && currentPlaylistIndex < playlist.length || playlist.length < 1" mat-flat-button class="button" (click)="playNextSong()"> {{ playlist.length > 0 ? "Next" : "Play Random Song"}} </button>
-  <button *ngIf="playlist.length > 0" mat-flat-button [matMenuTriggerFor]="addPlaylistMenu" aria-label="Example icon button with a menu icon">
+  <button *ngIf="playlist.length > 0" mat-flat-button class="button" [matMenuTriggerFor]="addPlaylistMenu" aria-label="Example icon button with a menu icon">
     Save Playlist
   </button>
   <mat-menu #addPlaylistMenu="matMenu">
@@ -21,7 +21,7 @@
       <button class="button" (click)="$event.stopPropagation(); deletePlaylist(playlist.key)"> X </button> {{playlist.name}} 
     </div>
   </mat-menu>
-  <button mat-flat-button [matMenuTriggerFor]="playlistMenu" aria-label="Example icon button with a menu icon">
+  <button mat-flat-button class="button" [matMenuTriggerFor]="playlistMenu" aria-label="Example icon button with a menu icon">
     Load Playlist
   </button>
   <mat-menu #playlistMenu="matMenu">
@@ -48,7 +48,7 @@
     <th mat-header-cell *matHeaderCellDef class="sortable-table-header" (click)="sortName()"> Song name 
       <mat-icon *ngIf="sortNameDesc !== undefined">{{ sortNameDesc ? "arrow_drop_down" : "arrow_drop_up" }}</mat-icon>
     </th>
-    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="playSong(song.metadata.title, song.youtube)"> {{song.metadata.title}} </button> </td>
+    <td class="song-name-cell" mat-cell *matCellDef="let song"> <button class="song-button" mat-flat-button (click)="resetPlaylist(); playSong(song.metadata.title, song.youtube)"> {{song.metadata.title}} </button> </td>
   </ng-container>
 
   <ng-container matColumnDef="description">
@@ -102,5 +102,3 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons> </mat-paginator>
-
-

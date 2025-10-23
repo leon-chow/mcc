@@ -26,7 +26,7 @@ export class JukeboxPageComponent {
   searchInput: string = "";
   displayedColumns: string[] = ['mark','songName', 'description', 'date', 'folder'];
   videoId: string = "";
-  currentPlaylistIndex: number = 0;
+  currentPlaylistIndex: number = 1;
   sortDateDesc: boolean | undefined = undefined;
   sortNameDesc: boolean | undefined = undefined;
   currentPlayedSong: string = "";
@@ -70,6 +70,7 @@ export class JukeboxPageComponent {
       }
     })
     this.setTableDataSource(this.filteredData);
+    this.playlist = this.filteredData;
   }
 
   onDateRangeFilter(dateRangeStart: any, dateRangeEnd: any) {
@@ -138,7 +139,7 @@ export class JukeboxPageComponent {
   playPlaylist(key: string) {
     this.resetPlaylist();
     this.playlist = this.localStorage.getItem(key).playlist;
-    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+    this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
   }
 
   shufflePlaylist(playlist?: any) {
@@ -155,12 +156,13 @@ export class JukeboxPageComponent {
       )
     })
     console.log(this.playlist);
-    this.playSong(this.playlist[this.currentPlaylistIndex].songName, this.playlist[this.currentPlaylistIndex].youtube);
+    this.playSong(this.playlist[this.currentPlaylistIndex - 1].songName, this.playlist[this.currentPlaylistIndex - 1].youtube);
   }
 
   playSong(song: string, link: string) {
     this.videoId = link;
     this.currentPlayedSong = song;
+    console.log(this.currentPlayedSong);
   }
 
   sortDate() {
@@ -213,6 +215,6 @@ export class JukeboxPageComponent {
 
   resetPlaylist() {
     this.playlist = [];
-    this.currentPlaylistIndex = 0;
+    this.currentPlaylistIndex = 1;
   }
 }
